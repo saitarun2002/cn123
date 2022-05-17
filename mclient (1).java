@@ -47,3 +47,35 @@ class readdata implements Runnable
     { System.out.println(e); }       }    }
 
 
+
+
+Server.py
+from socket import *
+serverPort = 1201
+serverSocket = socket(AF_INET, SOCK_DGRAM)
+serverSocket.bind(("localhost", serverPort))
+print ("The server is ready to receive")
+while 1:
+    b, clientAddress = serverSocket.recvfrom(1201)
+    message=b.decode()
+    print(message)
+    replymessage = input("Server:")
+    print(replymessage)
+    c=replymessage.encode()
+    serverSocket.sendto(c,clientAddress)
+
+Client.py
+from socket import *
+serverName = "localhost"
+serverPort = 1201
+#for i in range (0,10):
+clientSocket = socket(AF_INET, SOCK_DGRAM)
+message = input("Client:")
+b=message.encode()
+clientSocket.sendto(b,(serverName, serverPort))
+c, serverAddress = clientSocket.recvfrom(1201)
+modifiedMessage=c.decode()
+print (modifiedMessage)
+clientSocket.close()
+
+
